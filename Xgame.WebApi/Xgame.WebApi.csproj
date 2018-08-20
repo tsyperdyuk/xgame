@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xgame.Core\Xgame.Core.csproj" />
+    <ProjectReference Include="..\Xgame.Data\Xgame.Data.csproj" />
+  </ItemGroup>
+
+</Project>
