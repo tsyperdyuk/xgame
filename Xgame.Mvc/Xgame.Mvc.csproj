@@ -6,10 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Xgame.Data\Xgame.Data.csproj" />
+    <ProjectReference Include="..\Xgame.Model\Xgame.Model.csproj" />
     <ProjectReference Include="..\Xgame.WebApi.Client\Xgame.WebApi.Client.csproj" />
   </ItemGroup>
 

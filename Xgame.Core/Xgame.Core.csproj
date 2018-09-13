@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Xgame.Db\Xgame.Db.csproj" />
+    <ProjectReference Include="..\Xgame.Model\Xgame.Model.csproj" />
   </ItemGroup>
 
 </Project>

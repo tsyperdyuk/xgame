@@ -1,5 +1,3 @@
-using System;
-
 namespace Xgame.Mvc.Models
 {
     public class ErrorViewModel

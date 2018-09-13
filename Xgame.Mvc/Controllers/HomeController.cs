@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Xgame.Mvc.Models;
+using Xgame.WebApi.Client;
 
 namespace Xgame.Mvc.Controllers
 {
@@ -15,11 +13,11 @@ namespace Xgame.Mvc.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> People()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            var client = new ApiClient("https://localhost:44357");
+            var result = await client.User.GetAllAsync().ConfigureAwait(false);
+            return View(result);
         }
 
         public IActionResult Contact()

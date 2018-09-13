@@ -1,12 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Xgame.Core\Xgame.Core.csproj" />
-    <ProjectReference Include="..\Xgame.Data\Xgame.Data.csproj" />
+    <ProjectReference Include="..\Xgame.Db\Xgame.Db.csproj" />
+    <ProjectReference Include="..\Xgame.Model\Xgame.Model.csproj" />
   </ItemGroup>
 
 </Project>
