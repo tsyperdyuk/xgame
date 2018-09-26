@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xgame.Db;
+using Xgame.Db.Entities;
 
 namespace WebApplication
 {
@@ -20,9 +22,11 @@ namespace WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddOptions();
             var connationString = @"Server = (localdb)\mssqllocaldb; Database = XgameDB; Trusted_Connection = True;";
-            services.AddDbContext<XgameContext>(o => o.UseSqlServer(connationString, b => b.MigrationsAssembly("Xgame.Db")));
+            services.AddDbContext<XgameContext>(o => o.UseSqlServer(connationString));
+            // services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<XgameContext>();
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,8 +40,9 @@ namespace WebApplication
             {
                 app.UseHsts();
             }
-            xgameContext.EnsureSeedDataForContext();
             app.UseHttpsRedirection();
+            //app.UseStaticFiles();
+            //app.UseAuthentication();
             app.UseMvc();
         }
     }

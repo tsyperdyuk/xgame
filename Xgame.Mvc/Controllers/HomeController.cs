@@ -15,7 +15,7 @@ namespace Xgame.Mvc.Controllers
 
         public async Task<IActionResult> People()
         {
-            var client = new ApiClient("https://localhost:44357");
+            var client = new ApiClient("https://localhost:44357/");
             var result = await client.User.GetAllAsync().ConfigureAwait(false);
             return View(result);
         }

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using RestSharp;
+using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 using Xgame.Model;
 using Xgame.WebApi.Client.Providers.Interfaces;
+
+
 
 namespace Xgame.WebApi.Client.Providers
 {
@@ -16,17 +18,26 @@ namespace Xgame.WebApi.Client.Providers
 
         public virtual async Task<List<UserModel>> GetAllAsync()
         {
-            using (var client = new HttpClient())
-            {
-                var url = new Uri(new Uri(BaseUrl), "api/user");
-                
-                var serializer = new DataContractJsonSerializer(typeof(List<UserModel>));
-                var resultStream = await client.GetStreamAsync(url).ConfigureAwait(false);
-                var result = serializer.ReadObject(resultStream) as List<UserModel>;
+            var url = new Uri(new Uri(BaseUrl), "api/user");
+            var client = new RestClient(url);
+            var request = new RestRequest(Method.GET);
+            var response = new RestResponse();
 
-                return result;
-               // return Json(result);
-            }
+            response = await GetResponseContentAsync(client, request) as RestResponse;
+            
+            var jsonResponse = JsonConvert.DeserializeObject<List<UserModel>>(response.Content);
+            return jsonResponse;
+        }
+
+        public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)
+        {
+            var tcs = new TaskCompletionSource<IRestResponse>();
+            theClient.ExecuteAsync(theRequest, response => {
+                tcs.SetResult(response);
+            });
+            return tcs.Task;
         }
     }
+
 }
+
