@@ -10,8 +10,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Xgame.Db\Xgame.Db.csproj" />
     <ProjectReference Include="..\Xgame.Model\Xgame.Model.csproj" />
     <ProjectReference Include="..\Xgame.WebApi.Client\Xgame.WebApi.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
   </ItemGroup>
 
 </Project>

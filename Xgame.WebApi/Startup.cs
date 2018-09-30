@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xgame.Db;
-using Xgame.Db.Entities;
+using Xgame.Db.Models;
 
 namespace WebApplication
 {

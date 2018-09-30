@@ -1,11 +1,11 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account.Manage
 @{
+    Layout = null;
     ViewBag.Title = "Login";
 }
 
-<div>show list of people</div>
 @using (Html.BeginForm("People", "Home"))
 {
-    <input type="submit" value="Log In" />
-
+    <partial name="_LoginPartial"/>
 }
+

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Xgame.Db.Entities;
+using Xgame.Db.Models;
 
 namespace Xgame.Db
 {
