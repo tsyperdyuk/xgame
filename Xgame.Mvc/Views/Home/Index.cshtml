@@ -1,9 +1,11 @@
-﻿@{
-    Layout = null;
+﻿
+@{
+    ViewBag.Title = "Login";
 }
 
 <div>show list of people</div>
 @using (Html.BeginForm("People", "Home"))
 {
-    <button type="submit">OK</button>
+    <input type="submit" value="Log In" />
+
 }

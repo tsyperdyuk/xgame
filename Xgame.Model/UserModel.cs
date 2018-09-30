@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Xgame.Model
+﻿namespace Xgame.Model
 {
     public class UserModel
     {

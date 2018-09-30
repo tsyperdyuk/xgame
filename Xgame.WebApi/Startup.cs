@@ -23,9 +23,8 @@ namespace WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
-            var connationString = @"Server = (localdb)\mssqllocaldb; Database = XgameDB; Trusted_Connection = True;";
-            services.AddDbContext<XgameContext>(o => o.UseSqlServer(connationString));
-            // services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<XgameContext>();
+            services.AddDbContext<XgameContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<XgameContext>().AddDefaultTokenProviders();
             services.AddMvc();
         }
 
@@ -41,8 +40,8 @@ namespace WebApplication
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            //app.UseStaticFiles();
-            //app.UseAuthentication();
+            app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

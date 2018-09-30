@@ -14,4 +14,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Xgame.Model\Xgame.Model.csproj" />
+  </ItemGroup>
+
 </Project>
