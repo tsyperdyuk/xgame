@@ -1,4 +1,8 @@
-﻿namespace Xgame.Model
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Xgame.Model
 {
     public class UserModel
     {

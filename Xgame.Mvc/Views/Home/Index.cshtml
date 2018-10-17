@@ -1,11 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity.UI.Pages.Internal.Account.Manage
+@model Xgame.Model.LoginViewModel
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Start.cshtml";
     ViewBag.Title = "Login";
 }
 
-@using (Html.BeginForm("People", "Home"))
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
 {
-    <partial name="_LoginPartial"/>
+    @Html.HiddenFor(m => m.Email)
+    @Html.LabelFor(m => m.Email, "Email")
+    <br />
+    @Html.TextBoxFor(m => m.Email)
+    <br />
+    @Html.LabelFor(m => m.Password, "Password")
+    <br />
+    @Html.Password("UserPassword", "")
+    <br /><br>
+    <p><input type="submit" value="Log in" /></p>
 }
-

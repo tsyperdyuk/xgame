@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Xgame.WebApi.Client\Xgame.WebApi.Client.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Account\" />
-  </ItemGroup>
-
 </Project>

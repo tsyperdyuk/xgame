@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xgame.Db;
-using Xgame.Db.Models;
+using Xgame.Db.Entities;
 
 namespace WebApplication
 {
@@ -26,10 +26,12 @@ namespace WebApplication
             services.AddDbContext<XgameContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<XgameContext>().AddDefaultTokenProviders();
             services.AddMvc();
+            services.AddScoped<XgameContext>();
+            services.AddScoped<UserManager<User>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, XgameContext xgameContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

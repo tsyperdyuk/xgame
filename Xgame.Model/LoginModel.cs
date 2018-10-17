@@ -5,17 +5,13 @@ using System.Text;
 
 namespace Xgame.Model
 {
-    public class LoginViewModel
+    public class LoginModel
     {
         [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
-
+        [UIHint("UserName")]
+        public string UserName { get; set; }
         [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [UIHint("password")]
         public string Password { get; set; }
-
-        public string ReturnUrl { get; set; }
     }
 }

@@ -2,21 +2,32 @@
 
 <h2>Log In</h2>
 
-@using (Html.BeginForm("People", "Home"))
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="LogOff">
+        <input type="submit" value="Log out" />
+    </form>
+}
+else
 {
     <div>
-        <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <br>
-    <div>
-        <input type="submit" value="Log in" />
-    </div>
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+             {
+                 @Html.HiddenFor(m => m.Email)
+                 @Html.LabelFor(m => m.Email, "Email")
+                 <br />
+                 @Html.TextBoxFor(m => m.Email)
+                 <br />
+                 @Html.LabelFor(m => m.Password, "Password")
+                 <br />
+                 @Html.Password("UserPassword", "")
+                 <p><input type="submit" value="Log in" /></p>
+             }
+         </div>   
 }
+
+
+

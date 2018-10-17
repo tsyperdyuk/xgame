@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Xgame.Db.Models;
+using Xgame.Db.Entities;
 
 namespace Xgame.Db
 {
@@ -10,32 +10,5 @@ namespace Xgame.Db
         {
             
         }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().HasData(
-                new User()
-                {
-                    UserId = 1,
-                    FirstName = "Andmin",
-                    LastName = "Admin",
-                },
-                new User()
-                {
-                    UserId = 2,
-                    FirstName = "Andriy",
-                    LastName = "T",
-                },
-                new User()
-                {
-                    UserId = 3,
-                    FirstName = "AAAA",
-                    LastName = "BBBB",
-                }
-            );
-        }
-
-        public DbSet<User> Users { get; set; }
     }
 }
