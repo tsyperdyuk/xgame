@@ -1,1 +1,16 @@
-﻿TEST
+﻿@model Xgame.Model.LoginModel
+@{
+    Layout = "~/Views/Account/_Layout.cshtml";
+}
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.UserName, "Username")
+    <br />
+    @Html.TextBoxFor(m => m.UserName)
+    <br /><br />
+    @Html.LabelFor(m => m.Password, "Password")
+    <br />
+    @Html.PasswordFor(m => m.Password)
+    <br /><br />
+    <p><input type="submit" value="Submit" /></p>
+}

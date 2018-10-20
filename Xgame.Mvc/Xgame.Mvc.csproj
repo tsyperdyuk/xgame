@@ -10,9 +10,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Xgame.Core\Xgame.Core.csproj" />
     <ProjectReference Include="..\Xgame.Db\Xgame.Db.csproj" />
     <ProjectReference Include="..\Xgame.Model\Xgame.Model.csproj" />
-    <ProjectReference Include="..\Xgame.WebApi.Client\Xgame.WebApi.Client.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Account\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

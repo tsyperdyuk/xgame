@@ -1,55 +1,44 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Xgame.Db.Entities;
 using Xgame.Model;
 
 namespace Xgame.Mvc.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
         [HttpGet]
         public IActionResult Login()
         {
-            return View(new LoginViewModel());
-        }
-
-        [HttpPost]
-       // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
-        {
-
-            if (ModelState.IsValid)
-            {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, true);
-                if (result.Succeeded)
-                {
-                    //_logger.LogInformation("User logged in.");
-                    return LocalRedirect("/Index");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return RedirectToPage("/Index");
-                }
-            }
-            return RedirectToPage("/Index");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        public async Task<IActionResult> Login(LoginModel model, string returnUrl)
         {
-            // удаляем аутентификационные куки
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]        
+        public async Task<IActionResult> Logout()
+        {          
             await _signInManager.SignOutAsync();
+            
             return RedirectToAction("Index", "Home");
         }
     }

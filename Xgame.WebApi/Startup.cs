@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Xgame.Db;
 using Xgame.Db.Entities;
+using Xgame.Model;
 
 namespace WebApplication
 {
@@ -27,7 +28,7 @@ namespace WebApplication
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<XgameContext>().AddDefaultTokenProviders();
             services.AddMvc();
             services.AddScoped<XgameContext>();
-            services.AddScoped<UserManager<User>>();
+            services.AddScoped<UserManager<AppUser>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +45,12 @@ namespace WebApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}");
+            });
         }
     }
 }
