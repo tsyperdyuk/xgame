@@ -9,8 +9,9 @@ namespace Xgame.Db
     {
         public XgameContext(DbContextOptions<XgameContext> option) : base(option)
         {            
-        }
-        public DbSet<AppUser> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        }        
+
+        public  DbSet<Question> Questions { get; set; }
+
     }
 }

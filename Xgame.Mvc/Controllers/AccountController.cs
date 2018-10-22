@@ -59,8 +59,7 @@ namespace Xgame.Mvc.Controllers
         [HttpGet]        
         public async Task<IActionResult> Logout()
         {          
-            await _signInManager.SignOutAsync();
-            
+            await _signInManager.SignOutAsync();            
             return RedirectToAction("Index", "Home");
         }
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xgame.Db;
 
 namespace Xgame.Db.Migrations
 {
     [DbContext(typeof(XgameContext))]
-    partial class XgameContextModelSnapshot : ModelSnapshot
+    [Migration("20181022165934_added entity question")]
+    partial class addedentityquestion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,31 +182,6 @@ namespace Xgame.Db.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("Xgame.Db.Entities.Question", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<byte[]>("AnswerImage");
-
-                    b.Property<string>("AnswerText");
-
-                    b.Property<int>("AppUserId");
-
-                    b.Property<byte[]>("QuestionImage");
-
-                    b.Property<string>("QuestionText");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Questions");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -248,13 +225,6 @@ namespace Xgame.Db.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Xgame.Db.Entities.Question", b =>
-                {
-                    b.HasOne("Xgame.Db.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
