@@ -21,9 +21,8 @@ namespace Xgame.Mvc.Controllers
 
         [Authorize]
         public IActionResult Index()
-        {
-            ViewBag.UserName = User.Identity.Name;            
-
+        {            
+            ViewBag.UserName = Request.Cookies["username"].ToString();
             return View(User.Identity.IsAuthenticated);
         }     
 

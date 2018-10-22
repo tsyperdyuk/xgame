@@ -35,22 +35,16 @@ namespace Xgame.Mvc.Controllers
                 {
                     user = new AppUser { UserName = model.UserName };
                     var result = await _userManager.CreateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-                    }
-                    else
+                    if (!result.Succeeded)
                     {
                         foreach (var error in result.Errors)
                         {
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
-                    }
+                    }                   
                 }
-                else
-                {
-                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-                }
+                Response.Cookies.Append("username", model.UserName);
+                await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);               
             }
             return RedirectToAction("Index", "Home");
         }
