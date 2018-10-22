@@ -12,6 +12,5 @@ namespace Xgame.Db
         }        
 
         public  DbSet<Question> Questions { get; set; }
-
     }
 }
