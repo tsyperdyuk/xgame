@@ -10,8 +10,8 @@ using Xgame.Db;
 namespace Xgame.Db.Migrations
 {
     [DbContext(typeof(XgameContext))]
-    [Migration("20180930092712_identity")]
-    partial class identity
+    [Migration("20181022162419_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,7 +131,7 @@ namespace Xgame.Db.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Xgame.Db.Entities.User", b =>
+            modelBuilder.Entity("Xgame.Db.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -146,12 +146,6 @@ namespace Xgame.Db.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
-
-                    b.Property<int>("IsAdmin");
-
-                    b.Property<string>("LastName");
-
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
@@ -162,26 +156,22 @@ namespace Xgame.Db.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Password");
-
                     b.Property<string>("PasswordHash");
 
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<int?>("RoleId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<int>("UserId");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("UserId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -191,13 +181,22 @@ namespace Xgame.Db.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.HasIndex("RoleId");
 
-                    b.HasData(
-                        new { Id = "1f718d9f-2d85-4c52-88ba-4f500dc97614", AccessFailedCount = 0, ConcurrencyStamp = "a24ad912-f131-4d9b-8bc2-c94660713828", EmailConfirmed = false, FirstName = "Andmin", IsAdmin = 0, LastName = "Admin", LockoutEnabled = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, UserId = 1 },
-                        new { Id = "f9809fd0-4b97-48fc-9699-0870d6465071", AccessFailedCount = 0, ConcurrencyStamp = "2025d52c-9d8d-4a71-a97c-c21e18fa4658", EmailConfirmed = false, FirstName = "Andriy", IsAdmin = 0, LastName = "T", LockoutEnabled = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, UserId = 2 },
-                        new { Id = "49b3b7b2-3c40-4486-b80a-aee9b24b1227", AccessFailedCount = 0, ConcurrencyStamp = "96293b49-08bb-441e-8a71-9bddfffea6e7", EmailConfirmed = false, FirstName = "AAAA", IsAdmin = 0, LastName = "BBBB", LockoutEnabled = false, PhoneNumberConfirmed = false, TwoFactorEnabled = false, UserId = 3 }
-                    );
+                    b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Xgame.Db.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -210,7 +209,7 @@ namespace Xgame.Db.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Xgame.Db.Entities.User")
+                    b.HasOne("Xgame.Db.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -218,7 +217,7 @@ namespace Xgame.Db.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Xgame.Db.Entities.User")
+                    b.HasOne("Xgame.Db.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -231,7 +230,7 @@ namespace Xgame.Db.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Xgame.Db.Entities.User")
+                    b.HasOne("Xgame.Db.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -239,10 +238,17 @@ namespace Xgame.Db.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Xgame.Db.Entities.User")
+                    b.HasOne("Xgame.Db.Entities.AppUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Xgame.Db.Entities.AppUser", b =>
+                {
+                    b.HasOne("Xgame.Db.Entities.Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
                 });
 #pragma warning restore 612, 618
         }

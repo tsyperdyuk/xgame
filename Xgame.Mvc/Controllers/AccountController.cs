@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Xgame.Db.Entities;
 using Xgame.Model;
 
 namespace Xgame.Mvc.Controllers
@@ -29,10 +30,31 @@ namespace Xgame.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
+                AppUser user = await _userManager.FindByNameAsync(model.UserName);
+                if (user == null)
+                {
+                    user = new AppUser { UserName = model.UserName };
+                    var result = await _userManager.CreateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
+                }
             }
             return RedirectToAction("Index", "Home");
         }
+
 
         [HttpGet]        
         public async Task<IActionResult> Logout()

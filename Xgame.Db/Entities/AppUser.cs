@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Xgame.Model
+
+namespace Xgame.Db.Entities
 {
     public class AppUser : IdentityUser
-    {
+    {        
     }
 }
