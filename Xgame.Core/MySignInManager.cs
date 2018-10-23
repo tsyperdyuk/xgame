@@ -27,17 +27,17 @@ namespace Xgame.Core
         }
         
         public override async Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
-        {           
+        {
+            var userId = (await _userManager.FindByNameAsync(userName)).Id;
             var claims = new List<Claim>
             {
-              new Claim(ClaimsIdentity.DefaultNameClaimType, userName),              
+              new Claim(UserClaimTypes.UserName, userName),
+              new Claim(UserClaimTypes.Id, userId),
             };
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-
             return SignInResult.Success;
         }
-
 
         public override Task SignOutAsync()
         {

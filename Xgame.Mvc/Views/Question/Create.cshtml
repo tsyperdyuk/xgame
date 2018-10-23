@@ -1,0 +1,14 @@
+﻿@model Xgame.Model.QuestionCreateModel
+
+@using (Html.BeginForm("Create", "Question", FormMethod.Post))
+{
+    @Html.LabelFor(m => m.QuestionText, "Question")
+    <br />
+    @Html.TextArea("text", "", 5, 100, null)
+    <br /> <br />
+    @Html.LabelFor(m => m.AnswerText, "Answer")
+    <br />
+    @Html.TextArea("text", "", 5, 100, null)
+    <br /><br />
+    <p><input type="submit" value="Submit" /></p>
+}

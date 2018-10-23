@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Xgame.Core;
 using Xgame.Db;
 using Xgame.Db.Entities;
 
@@ -23,7 +24,10 @@ namespace Xgame.Mvc.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            ViewBag.UserName = HttpContext.User.Claims.FirstOrDefault().Value;
+            //ViewBag.UserName = HttpContext.User.FindFirst(UserClaimTypes.UserName);
+            ViewBag.UserName = HttpContext.User.Claims.FirstOrDefault().Value;            
+            ViewBag.Id = HttpContext.User.FindFirst(UserClaimTypes.Id);
+
             return View(User.Identity.IsAuthenticated);
         }     
 

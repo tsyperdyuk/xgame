@@ -1,5 +1,12 @@
-﻿<h3>Welcome @ViewBag.UserName</h3>
-<h2>Index.cshtml</h2>
+﻿<h2>Welcome @ViewBag.UserName</h2>
+@using (Html.BeginForm("Create", "Question", FormMethod.Get))
+{    
+    <p>
+        <input type="submit" value="Add a new question" />
+    </p>
+}
+<h3>@ViewBag.Id</h3>
+<h4>Index.cshtml</h4>
 @Html.Partial("Questions")
 
 

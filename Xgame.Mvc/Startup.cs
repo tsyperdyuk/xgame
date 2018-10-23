@@ -9,6 +9,7 @@ using System;
 using Xgame.Core;
 using Xgame.Db;
 using Xgame.Db.Entities;
+using Xgame.Model;
 
 namespace Xgame.Mvc
 {
@@ -65,6 +66,10 @@ namespace Xgame.Mvc
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Question, QuestionCreateModel>();                
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
