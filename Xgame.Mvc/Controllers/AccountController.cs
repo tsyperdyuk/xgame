@@ -42,8 +42,7 @@ namespace Xgame.Mvc.Controllers
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
                     }                   
-                }
-                Response.Cookies.Append("username", model.UserName);
+                }                
                 await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);               
             }
             return RedirectToAction("Index", "Home");
