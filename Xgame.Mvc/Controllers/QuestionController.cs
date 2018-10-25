@@ -40,7 +40,7 @@ namespace Xgame.Mvc.Controllers
             if (ModelState.IsValid)
             {
                 var questionEntity = Mapper.Map<Question>(question);
-                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).ToString();
+                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).ToString().Substring(8, 36);
                 _context.Questions.Add(questionEntity);
                 await _context.SaveChangesAsync();                
             }

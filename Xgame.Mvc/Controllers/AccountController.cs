@@ -46,9 +46,8 @@ namespace Xgame.Mvc.Controllers
                await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);               
             } else
             {
-                await _signInManager.PasswordSignInAsync("aaa", "aaa", false, false);
+                await _signInManager.PasswordSignInAsync("Andriy", "Andriy", false, false);
             }
-            
             return RedirectToAction("Index", "Home");
         }
 

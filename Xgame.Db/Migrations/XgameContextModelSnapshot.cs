@@ -190,17 +190,15 @@ namespace Xgame.Db.Migrations
 
                     b.Property<string>("AnswerText");
 
-                    b.Property<int>("AppUserId");
+                    b.Property<string>("AppUserId");
 
                     b.Property<string>("QuestionImage");
 
                     b.Property<string>("QuestionText");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Questions");
                 });
@@ -254,7 +252,7 @@ namespace Xgame.Db.Migrations
                 {
                     b.HasOne("Xgame.Db.Entities.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("AppUserId");
                 });
 #pragma warning restore 612, 618
         }
