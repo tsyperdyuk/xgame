@@ -4,11 +4,11 @@
 {
     @Html.LabelFor(m => m.QuestionText, "Question")
     <br />
-    @Html.TextArea("text", "", 5, 100, null)
+    @Html.TextAreaFor(m => m.QuestionText, new { rows = "5", cols = "100" })
     <br /> <br />
     @Html.LabelFor(m => m.AnswerText, "Answer")
     <br />
-    @Html.TextArea("text", "", 5, 100, null)
+    @Html.TextAreaFor(m => m.AnswerText, new { rows = "5", cols = "100" })
     <br /><br />
     <p><input type="submit" value="Submit" /></p>
 }

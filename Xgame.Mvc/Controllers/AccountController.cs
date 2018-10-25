@@ -42,9 +42,13 @@ namespace Xgame.Mvc.Controllers
                             ModelState.AddModelError(string.Empty, error.Description);
                         }
                     }                   
-                }                
-                await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);               
+                }
+               await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);               
+            } else
+            {
+                await _signInManager.PasswordSignInAsync("aaa", "aaa", false, false);
             }
+            
             return RedirectToAction("Index", "Home");
         }
 

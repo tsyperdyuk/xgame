@@ -12,7 +12,7 @@ namespace Xgame.Db.Entities
         public string QuestionImage { get; set; }
         public string AnswerImage { get; set; }
 
-        public int AppUserId { get; set; } 
+        public string AppUserId { get; set; } 
         public AppUser User { get; set; } 
     }
 }

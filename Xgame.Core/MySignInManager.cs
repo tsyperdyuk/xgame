@@ -27,7 +27,7 @@ namespace Xgame.Core
         }
         
         public override async Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
-        {
+        {           
             var userId = (await _userManager.FindByNameAsync(userName)).Id;
             var claims = new List<Claim>
             {

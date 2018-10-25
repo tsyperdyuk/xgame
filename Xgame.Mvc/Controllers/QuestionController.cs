@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Xgame.Core;
 using Xgame.Db;
 using Xgame.Db.Entities;
 using Xgame.Model;
@@ -20,6 +21,8 @@ namespace Xgame.Mvc.Controllers
         {
             _context = ctx;
         }
+
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
@@ -30,20 +33,18 @@ namespace Xgame.Mvc.Controllers
         {
             return View();
         }
-
+                
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(QuestionCreateModel question)
+        public async Task<IActionResult> Create(QuestionCreateModel question)
         {
             if (ModelState.IsValid)
             {
                 var questionEntity = Mapper.Map<Question>(question);
-                
+                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).ToString();
                 _context.Questions.Add(questionEntity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _context.SaveChangesAsync();                
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

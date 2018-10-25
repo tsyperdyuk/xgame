@@ -68,14 +68,9 @@ namespace Xgame.Mvc
             app.UseAuthentication();
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Question, QuestionCreateModel>();                
-            });
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}");
-            });
+                cfg.CreateMap<QuestionCreateModel, Question>();                
+            });           
+            app.UseMvcWithDefaultRoute();            
         }
     }
 }
