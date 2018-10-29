@@ -5,10 +5,18 @@
     @Html.LabelFor(m => m.QuestionText, "Question")
     <br />
     @Html.TextAreaFor(m => m.QuestionText, new { rows = "5", cols = "100" })
-    <br /> <br />
+    <br />
+    @Html.LabelFor(m => m.QuestionText, "Question Image")
+    <br />
+    @Html.TextAreaFor(m => m.QuestionImageUrl, new { rows = "1", cols = "100" })
+    <br /> <br /> <br />
     @Html.LabelFor(m => m.AnswerText, "Answer")
     <br />
     @Html.TextAreaFor(m => m.AnswerText, new { rows = "5", cols = "100" })
-    <br /><br />
+    <br />
+    @Html.LabelFor(m => m.QuestionText, "Answer Image")
+    <br />
+    @Html.TextAreaFor(m => m.AnswerImageUrl, new { rows = "1", cols = "100" })
+    <br /> <br />
     <p><input type="submit" value="Submit" /></p>
 }

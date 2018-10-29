@@ -9,8 +9,8 @@ namespace Xgame.Db.Entities
         public int Id { get; set; }
         public string QuestionText { get; set; }
         public string AnswerText { get; set; }
-        public string QuestionImage { get; set; }
-        public string AnswerImage { get; set; }
+        public string QuestionImageUrl { get; set; }
+        public string AnswerImageUrl { get; set; }
 
         public string AppUserId { get; set; } 
         public AppUser User { get; set; } 
