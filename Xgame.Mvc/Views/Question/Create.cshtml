@@ -1,22 +1,36 @@
 ﻿@model Xgame.Model.QuestionCreateModel
 
-@using (Html.BeginForm("Create", "Question", FormMethod.Post))
+@using (Html.BeginForm("Create", "Question", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-    @Html.LabelFor(m => m.QuestionText, "Question")
-    <br />
-    @Html.TextAreaFor(m => m.QuestionText, new { rows = "5", cols = "100" })
-    <br />
-    @Html.LabelFor(m => m.QuestionText, "Question Image")
-    <br />
-    @Html.TextAreaFor(m => m.QuestionImageUrl, new { rows = "1", cols = "100" })
-    <br /> <br /> <br />
-    @Html.LabelFor(m => m.AnswerText, "Answer")
-    <br />
-    @Html.TextAreaFor(m => m.AnswerText, new { rows = "5", cols = "100" })
-    <br />
-    @Html.LabelFor(m => m.QuestionText, "Answer Image")
-    <br />
-    @Html.TextAreaFor(m => m.AnswerImageUrl, new { rows = "1", cols = "100" })
-    <br /> <br />
-    <p><input type="submit" value="Submit" /></p>
+    <h4>Please add your question</h4>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(m => m.QuestionText, "Question", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.QuestionText, new { rows = "6", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.QuestionImageUrl, "Question Image", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.QuestionImageUrl, new { @class = "form-control" })
+        </div>
+    </div>
+    <br /><br />
+    <div class="form-group">
+        @Html.LabelFor(m => m.AnswerText, "Answer", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.AnswerText, new { rows = "3", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.AnswerImageUrl, "Answer Image", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.AnswerImageUrl, new { @class = "form-control" })
+        </div>
+    </div>
+    <div align="right">
+        <input type="submit" class="btn btn-success" value="Submit" align="right" />
+    </div>   
 }
+

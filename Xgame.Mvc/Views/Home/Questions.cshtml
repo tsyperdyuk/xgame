@@ -1,8 +1,8 @@
 ﻿@model Question
 My Questions:
 <div class="thumbnail">
-    <img alt="@Model.QuestionText" src="@Model.QuestionImageUrl">
-    
+    <img alt="" src="@Model.QuestionImageUrl">
+    <h4>@Model.QuestionText</h4>
     <div class="caption-full">
         <p class="button" align="right">
             <a class="btn btn-primary" asp-controller="Question" asp-action="Edit" asp-route-Id="@Model.Id">Edit</a>

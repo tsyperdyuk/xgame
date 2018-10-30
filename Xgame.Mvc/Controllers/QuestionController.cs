@@ -45,11 +45,23 @@ namespace Xgame.Mvc.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
+        public IActionResult Update(Question questionEntity)
+        {
+            if (ModelState.IsValid)
+            {
+                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+                _questionRepository.Update(questionEntity);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+
         [HttpGet]
         public IActionResult Edit(int id)
-        {
-            ViewBag.QuestionId = id;
-            return View();
+        {            
+            var question = _questionRepository.GetById(id);
+            return View(question);
         }
 
         public IActionResult Delete(int id)
