@@ -45,5 +45,21 @@ namespace Xgame.Mvc.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            ViewBag.QuestionId = id;
+            return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var question = _questionRepository.GetById(id);
+
+            _questionRepository.Delete(question);
+
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

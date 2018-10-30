@@ -1,13 +1,10 @@
-﻿@model IEnumerable<Question>
-
+﻿
+@model IEnumerable<Question>
 
 <h2>Welcome @ViewBag.UserName</h2>
-@using (Html.BeginForm("Create", "Question", FormMethod.Get))
-{
-    <p>
-        <input type="submit" value="Add a new question" />
-    </p>
-}
+ 
+<a class="btn btn-success mt-5" style="margin: 10px" asp-controller="Question" asp-action="Create">Add a new Question</a>
+
 <h3>@ViewBag.Id</h3>
 <h4>Index.cshtml</h4>
 
