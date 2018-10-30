@@ -1,2 +1,11 @@
-﻿
+﻿@model Question
 My Questions:
+<div class="thumbnail">
+    <img alt="@Model.QuestionText" src="@Model.QuestionImageUrl">
+    <div class="caption-full">
+        <p class="button" align="right">
+            <a class="btn btn-primary" asp-controller="Question" asp-action="Edit" asp-route-pieId="@Model.Id">Edit</a>
+            <a class="btn btn-primary btn-danger" asp-controller="Question" asp-action="Remove" asp-route-pieId="@Model.Id">Remove</a>
+        </p>        
+    </div>
+</div>

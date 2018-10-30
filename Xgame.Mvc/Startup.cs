@@ -58,6 +58,7 @@ namespace Xgame.Mvc
             services.AddMvc();
             services.AddScoped<XgameContext>();
             services.AddScoped<SignInManager<AppUser>, MySignInManager>();
+            services.AddScoped<IQuestionRepository, QuestionRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

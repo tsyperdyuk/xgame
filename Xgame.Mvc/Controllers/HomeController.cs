@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using Xgame.Core;
 using Xgame.Db;
@@ -10,26 +11,28 @@ namespace Xgame.Mvc.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly XgameContext _context;
+        private readonly IQuestionRepository _questionRepository;  
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public HomeController(XgameContext ctx, UserManager<AppUser> userMngr, SignInManager<AppUser> signInMngr)
+        public HomeController(IQuestionRepository questionRep, UserManager<AppUser> userMngr, SignInManager<AppUser> signInMngr)
         {
-            _context = ctx;
+            _questionRepository = questionRep;
             _userManager = userMngr;
-           _signInManager = signInMngr;
+            _signInManager = signInMngr;
     }
 
         [Authorize]
         public IActionResult Index()
         {
-            //ViewBag.UserName = HttpContext.User.FindFirst(UserClaimTypes.UserName);
-            ViewBag.UserName = HttpContext.User.Claims.FirstOrDefault().Value;            
-            ViewBag.Id = HttpContext.User.FindFirst(UserClaimTypes.Id);
+            
+            string userId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+            var myQuestions = _questionRepository.GetAllQuestionsByUserId(userId);            
+            ViewBag.UserName = HttpContext.User.Claims.FirstOrDefault().Value;
+            ViewBag.Id = userId;
+            return View(myQuestions);
+        }
 
-            return View(User.Identity.IsAuthenticated);
-        }     
 
     }
 }

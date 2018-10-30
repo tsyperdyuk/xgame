@@ -15,11 +15,11 @@ namespace Xgame.Mvc.Controllers
 {
     public class QuestionController : Controller
     {
-        private readonly XgameContext _context;
+        private readonly IQuestionRepository _questionRepository;
 
-        public QuestionController(XgameContext ctx)
+        public QuestionController(IQuestionRepository questionRep)
         {
-            _context = ctx;
+            _questionRepository = questionRep;
         }
 
         [HttpGet]
@@ -33,16 +33,15 @@ namespace Xgame.Mvc.Controllers
         {
             return View();
         }
-                
+
         [HttpPost]
-        public async Task<IActionResult> Create(QuestionCreateModel question)
+        public IActionResult Create(QuestionCreateModel question)
         {
             if (ModelState.IsValid)
             {
                 var questionEntity = Mapper.Map<Question>(question);
-                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).ToString().Substring(8, 36);
-                _context.Questions.Add(questionEntity);
-                await _context.SaveChangesAsync();                
+                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+                _questionRepository.Create(questionEntity);                
             }
             return RedirectToAction("Index", "Home");
         }
