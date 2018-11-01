@@ -4,6 +4,7 @@
 {
     <h4>Please edit your question</h4>
     <hr />
+    <input type="hidden" value="@Model.Id" name="Id" />
     <div class="form-group">
         @Html.LabelFor(m => m.QuestionText, "Question", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -30,6 +31,7 @@
         </div>
     </div>
     <div align="right">
+        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Return</a>
         <input type="submit" class="btn btn-success" value="Update" align="right" />
     </div>
 }

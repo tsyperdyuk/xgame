@@ -56,7 +56,6 @@ namespace Xgame.Mvc.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
         [HttpGet]
         public IActionResult Edit(int id)
         {            

@@ -18,7 +18,7 @@ namespace Xgame.Mvc.Controllers
             _questionRepository = questionRep;
             _userManager = userMngr;
             _signInManager = signInMngr;
-    }
+        }
 
         [Authorize]
         public IActionResult Index()
