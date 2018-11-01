@@ -4,10 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] Xgame</title>
-   
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-   
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -15,15 +13,16 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Roles" asp-action="Index">Roles</a></li>
                     <li><a asp-controller="Account" asp-action="Logout">Log out</a></li>
-                </ul>
+                </ul>                    
             </div>
         </div>
-    </nav>
 
+    </nav>
     <div class="container body-content">
         @RenderBody()
     </div>
-   
+
 </body>
 </html>

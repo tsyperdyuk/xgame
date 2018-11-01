@@ -2,12 +2,8 @@
 @model IEnumerable<Question>
 
 <h2>Welcome @ViewBag.UserName</h2>
- 
 <a class="btn btn-success mt-5" style="margin: 10px" asp-controller="Question" asp-action="Create">Add a new Question</a>
-
-<h3>@ViewBag.Id</h3>
-<h4>Index.cshtml</h4>
-
+<br><br>
 @foreach (var question in Model)
 {    
    @Html.Partial("Questions", question)
