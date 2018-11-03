@@ -1,6 +1,6 @@
 {
-  "AdminUsers": {
-    "UserName": "admin",
-    "Role": "Admin"
+  "Users": {
+    "atsyperdyuk": "admin",
+    "sradzynaiak": "admin"
   }
 }
