@@ -9,5 +9,6 @@ namespace Xgame.Core
     public interface IQuestionRepository : IRepository<Question>
     {
         IEnumerable<Question> GetAllQuestionsByUserId(string userId);
+        IEnumerable<Question> GetAllQuestions();
     }
 }

@@ -9,7 +9,6 @@ using Xgame.Db;
 using Xgame.Db.Entities;
 using Xgame.Model;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Xgame.Mvc.Controllers
 {
@@ -54,6 +53,16 @@ namespace Xgame.Mvc.Controllers
                 _questionRepository.Update(questionEntity);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Approve(Question questionEntity)
+        {
+            if (ModelState.IsValid)
+            {
+                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+                _questionRepository.Update(questionEntity);
+            }
+            return RedirectToAction("Index", "Approve");
         }
 
         [HttpGet]

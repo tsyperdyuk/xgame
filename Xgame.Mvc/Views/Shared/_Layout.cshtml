@@ -6,17 +6,24 @@
     <title>@ViewData["Title"] Xgame</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+ 
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse row">
                 <ul class="nav navbar-nav">
                     <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-controller="Roles" asp-action="Index">Roles</a></li>
-                    <li><a asp-controller="Account" asp-action="Logout">Log out</a></li>
-                </ul>                    
+                    <li><a asp-controller="Approve" asp-action="Index">Review games</a></li>
+
+
+                    <li class="jus"><a asp-controller="Account" asp-action="Logout">Log out</a></li>
+                </ul>               
+               
             </div>
+
+           
         </div>
 
     </nav>

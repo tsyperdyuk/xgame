@@ -22,5 +22,11 @@ namespace Xgame.Core
         {
             return _context.Questions.Where(q => q.AppUserId == userId).OrderByDescending(q => q.Id); //sorting by DESC
         }
+
+        public IEnumerable<Question> GetAllQuestions()
+        {
+            //return _context.Questions.OrderByDescending(q => q.Id); //sorting by DESC
+            return _context.Questions.Include(u => u.User).OrderByDescending(q => q.Id); //sorting by DESC
+        }
     }
 }
