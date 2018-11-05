@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Xgame.Core;
+using Xgame.Db.Entities;
+using Xgame.Model;
 
 namespace Xgame.Mvc.Controllers
 {
@@ -19,8 +22,8 @@ namespace Xgame.Mvc.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var myQuestions = _questionRepository.GetAllQuestions();        
-            return View(myQuestions);
+            var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(_questionRepository.GetAllQuestions());
+            return View(questions);
         }
 
         [HttpGet]

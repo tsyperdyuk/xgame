@@ -62,7 +62,7 @@ namespace Xgame.Mvc.Controllers
                 questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
                 _questionRepository.Update(questionEntity);
             }
-            return RedirectToAction("Index", "Approve");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
