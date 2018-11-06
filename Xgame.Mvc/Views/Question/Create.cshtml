@@ -1,6 +1,6 @@
 ﻿@model Xgame.Model.QuestionCreateModel
 
-@using (Html.BeginForm("Create", "Question", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Create", "Question", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
 {
     <h4>Please add your question</h4>
     <hr />
@@ -13,7 +13,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.QuestionImageUrl, "Question Image", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.QuestionImageUrl, new { @class = "form-control" })
+            <input type="file" class="form-control-file" name="picOfQuestion">
         </div>
     </div>
     <br /><br />
@@ -26,11 +26,10 @@
     <div class="form-group">
         @Html.LabelFor(m => m.AnswerImageUrl, "Answer Image", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.AnswerImageUrl, new { @class = "form-control" })
+            <input type="file" class="form-control-file" name="picOfAndser">
         </div>
     </div>
     <div align="right">
-        <input type="submit" class="btn btn-success" value="Submit" align="right" />
-    </div>   
+        <input type="submit" class="btn btn-success" value="Add" align="right" />
+    </div>
 }
-

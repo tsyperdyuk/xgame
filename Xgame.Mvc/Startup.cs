@@ -45,7 +45,6 @@ namespace Xgame.Mvc
             {               
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
             }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
             {
                 options.LoginPath = "/Account/Login";
@@ -74,6 +73,7 @@ namespace Xgame.Mvc
                 .ForMember("UserName", opt => opt.MapFrom(c => c.User.UserName));
                 cfg.CreateMap<Question, QuestionCreateModel>();               
                 cfg.CreateMap<Question, QuestionUpdateModel>();
+                cfg.CreateMap<QuestionUpdateModel, Question>();
             });           
             app.UseMvcWithDefaultRoute();            
         }

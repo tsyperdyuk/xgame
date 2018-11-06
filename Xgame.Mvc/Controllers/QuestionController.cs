@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Xgame.Core;
 using Xgame.Db;
@@ -15,10 +20,12 @@ namespace Xgame.Mvc.Controllers
     public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
+        private readonly IHostingEnvironment _env;
 
-        public QuestionController(IQuestionRepository questionRep)
+        public QuestionController(IQuestionRepository questionRep, IHostingEnvironment env)
         {
             _questionRepository = questionRep;
+            _env = env;
         }
 
         [HttpGet]
@@ -34,21 +41,35 @@ namespace Xgame.Mvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(QuestionCreateModel question)
+        public IActionResult Create(QuestionCreateModel question, IFormFile picOfQuestion)
         {
             if (ModelState.IsValid)
             {
-                var questionEntity = Mapper.Map<Question>(question);
-                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
-                _questionRepository.Create(questionEntity);                
+                if(picOfQuestion != null)
+                {
+                    
+                    //var fileName = Path.Combine(_env.WebRootPath, Path.GetFileName(picOfQuestion.FileName));
+                    var fileName = _env.WebRootPath + "\\Pictures";
+                    var permission = new FileIOPermission(FileIOPermissionAccess.Write, fileName);
+                    var permissionSet = new PermissionSet(PermissionState.None);
+                    permissionSet.AddPermission(permission);
+                   
+                        picOfQuestion.CopyTo(new FileStream(fileName, FileMode.Create, FileAccess.ReadWrite));
+                    
+                    
+                }
+                //var questionEntity = Mapper.Map<Question>(question);
+                //questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+                //_questionRepository.Create(questionEntity);                
             }
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Update(Question questionEntity)
+        public IActionResult Update(QuestionUpdateModel question)
         {
             if (ModelState.IsValid)
             {
+                var questionEntity = Mapper.Map<QuestionUpdateModel, Question>(question);
                 questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
                 _questionRepository.Update(questionEntity);
             }
@@ -68,16 +89,14 @@ namespace Xgame.Mvc.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {            
-            var question = _questionRepository.GetById(id);
+            var question = Mapper.Map<QuestionUpdateModel>(_questionRepository.GetById(id)); 
             return View(question);
         }
 
         public IActionResult Delete(int id)
         {
             var question = _questionRepository.GetById(id);
-
             _questionRepository.Delete(question);
-
             return RedirectToAction("Index", "Home");
         }
 
