@@ -74,6 +74,7 @@ namespace Xgame.Mvc
                 cfg.CreateMap<Question, QuestionCreateModel>();               
                 cfg.CreateMap<Question, QuestionUpdateModel>();
                 cfg.CreateMap<QuestionUpdateModel, Question>();
+                cfg.CreateMap<QuestionCreateModel, Question>();
             });           
             app.UseMvcWithDefaultRoute();            
         }

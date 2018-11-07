@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Xgame.Core;
 using Xgame.Db.Entities;
 using Xgame.Model;
+using Xgame.Model.QuestionModel;
 
 namespace Xgame.Mvc.Controllers
 {
@@ -29,7 +30,9 @@ namespace Xgame.Mvc.Controllers
         [HttpGet]
         public IActionResult Review(int id)
         {
-            var question = _questionRepository.GetById(id);
+            var question = Mapper.Map<Question, QuestionReviewModel>(_questionRepository.GetById(id));
+            ViewData["QuestionImage"] = "/Pictures/" + question.QuestionImageUrl;
+            ViewData["AnswerImage"] = "/Pictures/" + question.AnswerImageUrl;
             return View(question);
         }
     }
