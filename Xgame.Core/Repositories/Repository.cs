@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Xgame.Db;
 
 namespace Xgame.Core.Repositories
@@ -15,45 +17,40 @@ namespace Xgame.Core.Repositories
             _context = context;
         }
 
-        protected void Save() => _context.SaveChanges();
+        protected async Task Save() => await _context.SaveChangesAsync();
+       
 
-        public int Count(Func<T, bool> predicate)
+        public async Task Create(T entity)
         {
-            return _context.Set<T>().Where(predicate).Count();
+            await _context.AddAsync(entity);
+            await Save();
         }
 
-        public void Create(T entity)
-        {
-            _context.Add(entity);
-            Save();
-        }
-
-        public void Delete(T entity)
+        public async Task Delete(T entity)
         {
             _context.Remove(entity);
-            Save();
+            await Save();
         }
 
-        public IEnumerable<T> Find(Func<T, bool> predicate)
+        public async Task<List<T>> Find(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().Where(predicate);
+            return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return _context.Set<T>();
-
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public T GetById(int Id)
+        public async Task<T> GetById(int Id)
         {
-            return _context.Set<T>().Find(Id);
+            return await _context.Set<T>().FindAsync(Id);
         }
 
-        public void Update(T entity)
+        public async Task Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            Save();
+            await Save();
         }
     }
 }

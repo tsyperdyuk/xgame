@@ -1,0 +1,14 @@
+﻿@model List<QuestionRepresentModel>
+<h2>List of Questions</h2>
+<table class="table">
+    @foreach (var question in Model)
+    {
+        <tr>
+            <td>@question.UserName</td>
+            <td>@question.QuestionText</td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="Review" asp-route-id="@question.Id">Review</a>
+            </td>
+        </tr>
+    }
+</table>

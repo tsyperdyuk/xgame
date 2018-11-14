@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Xgame.Core.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        Task<List<T>> GetAll();
 
-        IEnumerable<T> Find(Func<T, bool> predicate);
+        Task<List<T>> Find(Expression<Func<T, bool>> predicate);
 
-        T GetById(int Id);
+        Task<T> GetById(int Id);
 
-        void Create(T entity);
+        Task Create(T entity);
 
-        void Update(T entity);
+        Task Update(T entity);
 
-        void Delete(T entity);
-
-        int Count(Func<T, bool> predicate);
+        Task Delete(T entity);
     }
 }

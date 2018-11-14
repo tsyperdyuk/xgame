@@ -18,15 +18,19 @@ namespace Xgame.Core
            
         }           
 
-        public IEnumerable<Question> GetAllQuestionsByUserId(string userId)
+        public async Task<List<Question>> GetAllQuestionsByUserId(string userId)
         {
-            return _context.Questions.Where(q => q.AppUserId == userId).OrderByDescending(q => q.Id); //sorting by DESC
+            return await _context.Questions.Where(q => q.AppUserId == userId).OrderByDescending(q => q.Id).ToListAsync(); //sorting by DESC
         }
 
-        public IEnumerable<Question> GetAllQuestions()
+        public async Task<List<Question>> GetAllQuestions()
         {
-            //return _context.Questions.OrderByDescending(q => q.Id); //sorting by DESC
-            return _context.Questions.Include(u => u.User).OrderByDescending(q => q.Id); //sorting by DESC
+            return await _context.Questions.Include(u => u.User).OrderByDescending(q => q.Id).ToListAsync(); //sorting by DESC
+        }
+
+        public Task Delete(Task<Question> question)
+        {
+            throw new NotImplementedException();
         }
     }
 }

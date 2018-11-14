@@ -11,5 +11,7 @@ namespace Xgame.Model.QuestionModel
         public string AnswerText { get; set; }
         public string QuestionImageUrl { get; set; }
         public string AnswerImageUrl { get; set; }
+        public string ApproveStatus { get; set; }
+        public string RejectReason { get; set; }
     }
 }

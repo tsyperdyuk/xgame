@@ -10,10 +10,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Xgame.Core;
-using Xgame.Db;
 using Xgame.Db.Entities;
 using Xgame.Model;
-
+using Xgame.Model.QuestionModel;
 
 namespace Xgame.Mvc.Controllers
 {
@@ -90,9 +89,12 @@ namespace Xgame.Mvc.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
-        {            
-            var question = Mapper.Map<QuestionUpdateModel>(_questionRepository.GetById(id)); 
+        public async Task<IActionResult> Edit(int id)
+        {
+            var x = await _questionRepository.GetById(id).ConfigureAwait(false);
+            var question = Mapper.Map<Question, QuestionUpdateModel>(x);
+            ViewData["QuestionImage"] = "/Pictures/" + question.QuestionImageUrl;
+            ViewData["AnswerImage"] = "/Pictures/" + question.AnswerImageUrl;
             return View(question);
         }
 
@@ -101,6 +103,41 @@ namespace Xgame.Mvc.Controllers
             var question = _questionRepository.GetById(id);
             _questionRepository.Delete(question);
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> QuestionList()
+        {
+            var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(await _questionRepository.GetAllQuestions());
+            return View(questions);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Review(int id)
+        {
+            var question = Mapper.Map<Question, QuestionReviewModel>(await _questionRepository.GetById(id));
+            ViewData["QuestionImage"] = "/Pictures/" + question.QuestionImageUrl;
+            ViewData["AnswerImage"] = "/Pictures/" + question.AnswerImageUrl;
+            return View(question);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var question = Mapper.Map<Question, QuestionRejectModel>(await _questionRepository.GetById(id));
+            return View(question);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Reject(QuestionRejectModel questionModel)
+        {
+            if (ModelState.IsValid)
+            {             
+                var question = await _questionRepository.GetById(questionModel.Id);
+                question.RejectReason = questionModel.RejectReason;
+                await _questionRepository.Update(question);
+            }
+            return  RedirectToAction("QuestionList", "Question");
         }
 
     }

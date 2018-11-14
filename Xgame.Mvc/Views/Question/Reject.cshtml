@@ -1,0 +1,18 @@
+﻿@model QuestionRejectModel
+
+@using (Html.BeginForm("Reject", "Question", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <h4>Please provide reason for reject</h4>
+    <hr />
+    <input type="hidden" value="@Model.Id" name="Id" />
+    <div class="form-group">
+        @Html.LabelFor(m => m.RejectReason, "Reject reason", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.RejectReason, new { rows = "6", @class = "form-control" })
+        </div>
+    </div>
+    <div align="right">
+        <input type="submit" class="btn btn-success" value="Reject" align="right" />
+        <a class="btn btn-primary" asp-controller="Question" asp-action="QuestionList">Return</a>
+    </div>
+}

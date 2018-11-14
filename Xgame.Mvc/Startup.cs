@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Threading.Tasks;
 using Xgame.Core;
 using Xgame.Db;
 using Xgame.Db.Entities;
 using Xgame.Model;
+using Xgame.Model.QuestionModel;
 
 namespace Xgame.Mvc
 {
@@ -73,7 +75,10 @@ namespace Xgame.Mvc
                 .ForMember("UserName", opt => opt.MapFrom(c => c.User.UserName));
                 cfg.CreateMap<Question, QuestionCreateModel>();               
                 cfg.CreateMap<Question, QuestionUpdateModel>();
+                cfg.CreateMap<Question, QuestionRejectModel>();
                 cfg.CreateMap<QuestionUpdateModel, Question>();
+                cfg.CreateMap<Task<QuestionUpdateModel>, Task<Question>>();
+                cfg.CreateMap<Task<Question>, QuestionUpdateModel>();
                 cfg.CreateMap<QuestionCreateModel, Question>();
             });           
             app.UseMvcWithDefaultRoute();            

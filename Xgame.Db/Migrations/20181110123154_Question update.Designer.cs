@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Xgame.Db;
 
 namespace Xgame.Db.Migrations
 {
     [DbContext(typeof(XgameContext))]
-    partial class XgameContextModelSnapshot : ModelSnapshot
+    [Migration("20181110123154_Question update")]
+    partial class Questionupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,8 +201,6 @@ namespace Xgame.Db.Migrations
                     b.Property<string>("QuestionImageUrl");
 
                     b.Property<string>("QuestionText");
-
-                    b.Property<string>("RejectReason");
 
                     b.Property<DateTime>("UpdatedDate");
 

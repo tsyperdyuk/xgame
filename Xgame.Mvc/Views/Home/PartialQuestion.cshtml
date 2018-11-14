@@ -5,8 +5,26 @@ Question Id: @Model.Id
     <h4>@Model.QuestionText</h4>
     <div class="caption-full">
         <p class="button" align="right">
-            <a class="btn btn-primary" asp-controller="Question" asp-action="Edit" asp-route-Id="@Model.Id">Edit</a>
-            <a class="btn btn-primary btn-danger" asp-controller="Question" asp-action="Delete" asp-route-Id="@Model.Id">Remove</a>
+            <a class="btn btn-primary" asp-controller="Question" asp-action="Edit" asp-route-Id="@Model.Id">Edit</a>         
+            <a class="btn btn-primary btn-danger" data-toggle="modal" data-target="#myModal">Remove</a>
         </p>
+    </div>
+</div>
+<div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">            
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Remove the Question?</h4>
+                </div>                
+                <div class="modal-footer">
+                    <a class="btn btn-primary btn-danger" asp-controller="Question" asp-action="Delete" asp-route-Id="@Model.Id">Yes</a>
+                    <a class="btn btn-primary" data-dismiss="modal">No</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

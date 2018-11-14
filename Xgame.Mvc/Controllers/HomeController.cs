@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xgame.Core;
 using Xgame.Db.Entities;
 using Xgame.Model;
@@ -24,10 +25,10 @@ namespace Xgame.Mvc.Controllers
         }
 
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             string userId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
-            var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(_questionRepository.GetAllQuestionsByUserId(userId));
+            var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(await _questionRepository.GetAllQuestionsByUserId(userId));
             ViewBag.UserName = HttpContext.User.Claims.FirstOrDefault().Value;
             ViewBag.Id = userId;
             return View(questions);
