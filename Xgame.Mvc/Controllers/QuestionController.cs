@@ -78,21 +78,21 @@ namespace Xgame.Mvc.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Approve(Question questionEntity)
+        public async Task<IActionResult> Approve(int id)
         {
-            if (ModelState.IsValid)
-            {
-                questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
-                _questionRepository.Update(questionEntity);
-            }
+            var question = await _questionRepository.GetById(id).ConfigureAwait(false);
+            //question.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+            question.ApproveStatus = "4";
+            await _questionRepository.Update(question);
+            
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var x = await _questionRepository.GetById(id).ConfigureAwait(false);
-            var question = Mapper.Map<Question, QuestionUpdateModel>(x);
+            var questionEntity = await _questionRepository.GetById(id).ConfigureAwait(false);
+            var question = Mapper.Map<Question, QuestionUpdateModel>(questionEntity);
             ViewData["QuestionImage"] = "/Pictures/" + question.QuestionImageUrl;
             ViewData["AnswerImage"] = "/Pictures/" + question.AnswerImageUrl;
             return View(question);
