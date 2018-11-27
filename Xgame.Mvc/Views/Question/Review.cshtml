@@ -1,47 +1,88 @@
 ﻿@model QuestionReviewModel
+<div align="center">
+    <h3>Reviewing the Question @Model.Id</h3>
+</div>
+<div class="container">
 
-@using (Html.BeginForm("Approve", "Question", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    <h4>Reviewing the Question</h4>
-    <hr />
-    <input type="hidden" value="@Model.Id" name="Id" />
-    <input type="hidden" value="@Model.AnswerImageUrl" name="AnswerImageUrl" />
-    <input type="hidden" value="@Model.QuestionImageUrl" name="QuestionImageUrl" />
-    <input type="hidden" value="@Model.RejectReason" name="RejectReason" />
     <div class="form-group">
-        @Html.LabelFor(m => m.QuestionText, "Question", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(m => m.QuestionText, new { rows = "6", @class = "form-control" })
-        </div>
-    </div>
-    @if (Model.QuestionImageUrl != null && Model.QuestionImageUrl.Length > 0)
-    {
-        <div class="form-group">
-            @Html.LabelFor(m => m.QuestionImageUrl, "Question Image", new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <img src='@ViewData["QuestionImage"]' />
+        <br />
+        <div class="row">
+            <div class="col-xs-2">
+                <h4>Question:</h4>
+            </div>
+            <div class="col-xs-10">
+                <textarea disabled class="form-control" rows="5" id="comment">@Model.QuestionText</textarea>
             </div>
         </div>
-    }
-    <br /><br />
+    </div>
+
     <div class="form-group">
-        @Html.LabelFor(m => m.AnswerText, "Answer", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextAreaFor(m => m.AnswerText, new { rows = "3", @class = "form-control" })
+        <div class="row">
+            @if (Model.QuestionImageUrl != null && Model.QuestionImageUrl.Length > 0)
+            {
+                <div class="col-xs-2">
+                    <h4>Question Image:</h4>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <img src='@ViewData["QuestionImage"]' />
+                    </div>
+                </div>
+            }
         </div>
     </div>
-    @if (Model.AnswerImageUrl != null && Model.AnswerImageUrl.Length > 0)
-    {
-        <div class="form-group">
-            @Html.LabelFor(m => m.AnswerImageUrl, "Answer Image", new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                <img src='@ViewData["AnswerImage"]' />
+
+    <div class="form-group">
+        <br />
+        <div class="row">
+            <div class="col-xs-2">
+                <h4>Answer:</h4>
+            </div>
+            <div class="col-xs-10">
+                <textarea disabled class="form-control" rows="5" id="comment">@Model.AnswerText</textarea>
             </div>
         </div>
-    }
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            @if (Model.QuestionImageUrl != null && Model.QuestionImageUrl.Length > 0)
+            {
+                <div class="col-xs-2">
+                    <h4>Answer Image:</h4>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <img src='@ViewData["AnswerImage"]' />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
     <div align="right">
-        <input type="submit" class="btn btn-success" value="Approve" align="right" />
-        <a class="btn btn-primary btn-danger" asp-controller="Question" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
+        <a class="btn btn-primary btn-success" data-toggle="modal" data-target="#approveConfirmation">Approve</a>
+        <a class="btn btn-primary btn-danger" asp-controller="Question" asp-action="Reject" asp-route-questionId="@Model.Id">Reject</a>
         <a class="btn btn-primary" asp-controller="Question" asp-action="QuestionList">Return</a>
     </div>
-}
+
+ </div>
+
+<div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="approveConfirmation" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Approve the Question?</h4>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-primary btn-success" asp-controller="Question" asp-action="Approve" asp-route-questionId="@Model.Id">Yes</a>
+                    <a class="btn btn-primary" data-dismiss="modal">No</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

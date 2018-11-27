@@ -85,7 +85,7 @@ namespace Xgame.Mvc.Controllers
             question.ApproveStatus = "4";
             await _questionRepository.Update(question);
             
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("QuestionList", "Question");
         }
 
         [HttpGet]
@@ -122,21 +122,18 @@ namespace Xgame.Mvc.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Reject(int id)
+        public async Task<IActionResult> Reject(int questionId)
         {
-            var question = Mapper.Map<Question, QuestionRejectModel>(await _questionRepository.GetById(id));
+            var question = Mapper.Map<Question, QuestionRejectModel>(await _questionRepository.GetById(questionId));
             return View(question);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Reject(QuestionRejectModel questionModel)
+        public async Task<IActionResult> Reject([FromForm]QuestionRejectModel model)
         {
-            if (ModelState.IsValid)
-            {             
-                var question = await _questionRepository.GetById(questionModel.Id);
-                question.RejectReason = questionModel.RejectReason;
-                await _questionRepository.Update(question);
-            }
+            var question = await _questionRepository.GetById(model.Id);
+            question.RejectReason = model.RejectReason;
+            await _questionRepository.Update(question);
             return  RedirectToAction("QuestionList", "Question");
         }
 
