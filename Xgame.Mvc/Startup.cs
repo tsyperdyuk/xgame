@@ -73,7 +73,8 @@ namespace Xgame.Mvc
             {
                 cfg.CreateMap<Question, QuestionRepresentModel>()
                 .ForMember("UserName", opt => opt.MapFrom(c => c.User.UserName));
-                cfg.CreateMap<Question, QuestionCreateModel>();               
+                cfg.CreateMap<Question, QuestionCreateModel>();
+                cfg.CreateMap<Question, QuestionReviewModel>();
                 cfg.CreateMap<Question, QuestionUpdateModel>();
                 cfg.CreateMap<Question, QuestionRejectModel>();
                 cfg.CreateMap<QuestionUpdateModel, Question>();

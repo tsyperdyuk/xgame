@@ -9,6 +9,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Xgame.Core;
 using Xgame.Db.Entities;
 using Xgame.Model;
@@ -19,7 +20,7 @@ namespace Xgame.Mvc.Controllers
     public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
-        private readonly IHostingEnvironment _env;
+        private readonly IHostingEnvironment _env;       
 
         public QuestionController(IQuestionRepository questionRep, IHostingEnvironment env)
         {
@@ -60,7 +61,8 @@ namespace Xgame.Mvc.Controllers
                     picOfAnswer.CopyTo(new FileStream(fileNameOfAnswer, FileMode.Create, FileAccess.ReadWrite));                 
                     questionEntity.AnswerImageUrl = fileName;
                 }
-
+                questionEntity.CreatedDate = DateTime.Now;
+                questionEntity.Status = Status.New.ToString();
                 questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;               
                 _questionRepository.Create(questionEntity);                
             }
@@ -78,11 +80,11 @@ namespace Xgame.Mvc.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> Approve(int id)
+        public async Task<IActionResult> Approve(int questionId)
         {
-            var question = await _questionRepository.GetById(id).ConfigureAwait(false);
-            //question.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
-            question.ApproveStatus = "4";
+            var question = await _questionRepository.GetById(questionId).ConfigureAwait(false);
+            question.UpdatedDate = DateTime.Now;
+            question.Status = Status.Approved.ToString();
             await _questionRepository.Update(question);
             
             return RedirectToAction("QuestionList", "Question");
@@ -108,8 +110,49 @@ namespace Xgame.Mvc.Controllers
         [HttpGet]
         public async Task<IActionResult> QuestionList()
         {
-            var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(await _questionRepository.GetAllQuestions());
+            var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(await _questionRepository.GetAllQuestions());           
+            return View(questions);          
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> QuestionList2(int pageIndex = 1, int pageSize = 10)
+        {
+            var pagedQuestion = await _questionRepository.GetQuestions(pageIndex, pageSize, null);
+            var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(pagedQuestion.List);
             return View(questions);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetQuestionList(int pageIndex = 1, int pageSize = 10,
+            string draw = null, string start = null, string length = null)
+        {
+            var res = new
+            {
+                draw = 1,
+                recordsTotal = 15,
+                recordsFiltered = 5,
+                data = new [] {
+                    new [] { "Test", "Field2" },
+                    new [] { "Test2", "Field3" },
+                    new [] { "Test3", "Field4" },
+                    new [] { "Test4", "Field5" },
+                    new [] { "Test5", "Field6" },
+                    new [] { "Test", "Field2" },
+                    new [] { "Test2", "Field3" },
+                    new [] { "Test3", "Field4" },
+                    new [] { "Test4", "Field5" },
+                    new [] { "Test5", "Field6" },
+                    new [] { "Test", "Field2" },
+                    new [] { "Test2", "Field3" },
+                    new [] { "Test3", "Field4" },
+                    new [] { "Test4", "Field5" },
+                    new [] { "Test5", "Field6" },
+                }
+            };
+
+            await Task.CompletedTask;
+
+            return Json(res);
         }
 
         [HttpGet]
@@ -133,6 +176,8 @@ namespace Xgame.Mvc.Controllers
         {
             var question = await _questionRepository.GetById(model.Id);
             question.RejectReason = model.RejectReason;
+            question.Status = Status.Rejected.ToString();
+            question.UpdatedDate = DateTime.Now;
             await _questionRepository.Update(question);
             return  RedirectToAction("QuestionList", "Question");
         }

@@ -10,6 +10,7 @@
     <PackageReference Include="bootstrap" Version="4.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+    <PackageReference Include="Trirand.jqGrid" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,9 @@
 
   <ItemGroup>
     <Content Update="Views\Account\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Question\QuestionList.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

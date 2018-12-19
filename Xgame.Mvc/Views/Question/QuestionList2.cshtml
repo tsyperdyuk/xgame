@@ -2,44 +2,47 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
 <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-
 <br />
-
 <table id="test" class="table">
 
     <thead>
         <tr>
-            <th>UserName</th>
+            <th>USerName</th>
             <th>Question</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th></th>
+            
         </tr>
     </thead>
 
 
-    @foreach (var question in Model)
+    @*@foreach (var question in Model)
     {
+
+
         <tr>
             <td>@question.UserName</td>
             <td>@question.QuestionText</td>
-            <td>@question.Status</td>
-            <td>@question.CreatedDate</td>
+            <td>Date</td>
             <td>
                 <a class="btn btn-sm btn-primary" asp-action="Review" asp-route-id="@question.Id">Review</a>
             </td>
         </tr>
-    }
+    }*@
 </table>
 
 
 <script>
     $('#test').dataTable({
-        "columnDefs": [           
-            { "orderable": false, "targets": 4 }
-        ]
-     });
+        "processing": true,
+        "serverSide": true,
+        "ajax":
+        {
+            "url": '@Url.Action("GetQuestionList", "Question")',
+            "type": 'GET',
+            "datatype": 'json'
+        }        
+    });
 </script>
 

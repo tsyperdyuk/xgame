@@ -2,6 +2,8 @@
 
 <h2>Welcome @ViewBag.UserName</h2>
 <a class="btn btn-success mt-5" style="margin: 10px" asp-controller="Question" asp-action="Create">Add a new Question</a>
+
+
 <br><br>
 @foreach (var question in Model)
 {
