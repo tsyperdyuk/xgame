@@ -4,21 +4,16 @@
 }
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
-<div class="container">
-    <div class="form-group">
-        @Html.LabelFor(m => m.UserName, "Username", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { style = "width:200px;", @class = "form-control" })
+    <div class="container">
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, "Username", new { style = "text-align: left; width:200px; text-a", @class = "control-label center-block" })
+            @Html.TextBoxFor(m => m.UserName, new { style = "width:200px;", @class = "form-control center-block" })
+           
+            @Html.LabelFor(m => m.Password, "Password", new { style = "text-align: left; width:200px;", @class = "control-label center-block" })
+            @Html.PasswordFor(m => m.Password, new { style = "width:200px;", @class = "form-control center-block" })
+            <br />
+           
+            <input style="width:200px;" type="submit" class="btn btn-success center-block " value="Login" />
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, "Password", new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { style = "width:200px;", @class = "form-control" })
-            <br />
-                <input type="submit" class="btn btn-success" value="Login" />            
-        </div>
-    </div>    
-</div>
 }
-       
