@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,7 +57,7 @@ namespace Xgame.Mvc
             });
 
             services.AddAuthentication();
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2); ;
             services.AddScoped<XgameContext>();
             services.AddScoped<SignInManager<AppUser>, MySignInManager>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
