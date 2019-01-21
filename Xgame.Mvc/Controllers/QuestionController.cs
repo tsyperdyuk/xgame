@@ -69,12 +69,27 @@ namespace Xgame.Mvc.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Update(QuestionUpdateModel question)
+        public IActionResult Update(QuestionUpdateModel question, IFormFile picOfQuestion, IFormFile picOfAnswer)
         {
             if (ModelState.IsValid)
             {
                 var questionEntity = Mapper.Map<QuestionUpdateModel, Question>(question);
                 questionEntity.AppUserId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+                if (picOfQuestion != null)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(picOfQuestion.FileName);
+                    var fileNameOfQuestion = Path.Combine(_env.WebRootPath + "\\Pictures", fileName);
+                    picOfQuestion.CopyTo(new FileStream(fileNameOfQuestion, FileMode.Create, FileAccess.ReadWrite));
+                    questionEntity.QuestionImageUrl = fileName;
+                }
+
+                if (picOfAnswer != null)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(picOfQuestion.FileName);
+                    var fileNameOfAnswer = Path.Combine(_env.WebRootPath + "\\Pictures", fileName);
+                    picOfAnswer.CopyTo(new FileStream(fileNameOfAnswer, FileMode.Create, FileAccess.ReadWrite));
+                    questionEntity.AnswerImageUrl = fileName;
+                }
                 _questionRepository.Update(questionEntity);
             }
             return RedirectToAction("Index", "Home");

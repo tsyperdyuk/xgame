@@ -1,7 +1,7 @@
 ﻿@model QuestionUpdateModel
 
 
-@using (Html.BeginForm("Update", "Question", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Update", "Question", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
 {
     <h4>Please edit your question</h4>
     <hr />
@@ -17,12 +17,18 @@
     @if (Model.QuestionImageUrl != null && Model.QuestionImageUrl.Length > 0)
     {
         <div class="form-group">
-            @Html.LabelFor(m => m.QuestionImageUrl, "Question Image", new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.QuestionImageUrl, "Image", new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 <img src='@ViewData["QuestionImage"]' />
             </div>
         </div>
     }
+    <div class="form-group">
+        @Html.LabelFor(m => m.QuestionImageUrl, "Upload Image", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input type="file" class="form-control-file" name="picOfQuestion">
+        </div>
+    </div>
     <br /><br />
     <div class="form-group">
         @Html.LabelFor(m => m.AnswerText, "Answer", new { @class = "col-md-2 control-label" })
@@ -33,12 +39,18 @@
     @if (Model.AnswerImageUrl != null && Model.AnswerImageUrl.Length > 0)
     {
         <div class="form-group">
-            @Html.LabelFor(m => m.AnswerImageUrl, "Answer Image", new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.AnswerImageUrl, "Image", new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 <img src='@ViewData["AnswerImage"]' />
             </div>
         </div>
     }
+    <div class="form-group">
+        @Html.LabelFor(m => m.AnswerImageUrl, "Upload Image", new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input type="file" class="form-control-file" name="picOfAnswer">
+        </div>
+    </div>
     <div align="right">
         <input type="submit" class="btn btn-success" value="Update" align="right" />
         <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Return</a>
