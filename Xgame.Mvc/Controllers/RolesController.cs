@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Xgame.Db.Entities;
 using Xgame.Model;
 
 namespace Xgame.Mvc.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class RolesController : Controller
     {
         RoleManager<IdentityRole> _roleManager;
@@ -26,6 +28,8 @@ namespace Xgame.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
+            var user = HttpContext.User;
+
             if (!string.IsNullOrEmpty(name))
             {
                 IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));

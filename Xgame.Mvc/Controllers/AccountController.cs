@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Xgame.Db.Entities;
@@ -43,10 +42,11 @@ namespace Xgame.Mvc.Controllers
                         }
                     }                   
                 }
-               await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);               
-            } else
+               await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);               
+            }
+            else
             {
-                await _signInManager.PasswordSignInAsync("Andriy", "Andriy", false, false);
+                await _signInManager.PasswordSignInAsync("Andriy", "Andriy", true, false);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -57,6 +57,11 @@ namespace Xgame.Mvc.Controllers
         {          
             await _signInManager.SignOutAsync();            
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

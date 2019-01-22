@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Threading.Tasks;
 using Xgame.Core;
 using Xgame.Db;
 using Xgame.Db.Entities;
@@ -18,13 +17,9 @@ namespace Xgame.Mvc
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile("appusers.json");
-            Configuration = builder.Build();          
+            Configuration = configuration;
         }     
 
         public IConfiguration Configuration { get; set; }
@@ -35,33 +30,42 @@ namespace Xgame.Mvc
             services.AddDbContext<XgameContext>(o => o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<AppUser, IdentityRole>(options =>
-            {
-                options.Password.RequiredLength = 3;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<XgameContext>()
-              .AddDefaultTokenProviders();
-              
-            services.AddAuthentication(options =>
-            {               
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
-            {
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-                options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                options.SlidingExpiration = true;
-            });
+                {
+                    options.Password.RequiredLength = 3;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = false;
 
-            services.AddAuthentication();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2); ;
+                    options.ClaimsIdentity.RoleClaimType = UserClaimTypes.Roles;
+                    options.ClaimsIdentity.UserIdClaimType = UserClaimTypes.UserId;
+                    options.ClaimsIdentity.UserNameClaimType = UserClaimTypes.UserName;
+                })
+                .AddEntityFrameworkStores<XgameContext>()
+                .AddSignInManager<MySignInManager>()
+                .AddDefaultTokenProviders();
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+                    options.SlidingExpiration = true;
+                });
+            
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddScoped<XgameContext>();
             services.AddScoped<SignInManager<AppUser>, MySignInManager>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<StartInitializer>();
+
+            ConfigAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -70,20 +74,25 @@ namespace Xgame.Mvc
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            
+            app.UseMvcWithDefaultRoute();            
+        }
+
+        private void ConfigAutoMapper()
+        {
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Question, QuestionRepresentModel>()
-                .ForMember("UserName", opt => opt.MapFrom(c => c.User.UserName));
+                    .ForMember("UserName", opt => opt.MapFrom(c => c.User.UserName));
                 cfg.CreateMap<Question, QuestionCreateModel>();
                 cfg.CreateMap<Question, QuestionReviewModel>();
                 cfg.CreateMap<Question, QuestionUpdateModel>();
                 cfg.CreateMap<Question, QuestionRejectModel>();
                 cfg.CreateMap<QuestionUpdateModel, Question>();
-                cfg.CreateMap<Task<QuestionUpdateModel>, Task<Question>>();
-                cfg.CreateMap<Task<Question>, QuestionUpdateModel>();
+                cfg.CreateMap<QuestionUpdateModel, Question>();
+                cfg.CreateMap<Question, QuestionUpdateModel>();
                 cfg.CreateMap<QuestionCreateModel, Question>();
-            });           
-            app.UseMvcWithDefaultRoute();            
+            });
         }
     }
 }

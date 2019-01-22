@@ -27,7 +27,7 @@ namespace Xgame.Mvc.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            string userId = HttpContext.User.FindFirst(UserClaimTypes.Id).Value;
+            string userId = HttpContext.User.FindFirst(UserClaimTypes.UserId).Value;
             var questions = Mapper.Map<IEnumerable<Question>, List<QuestionRepresentModel>>(await _questionRepository.GetAllQuestionsByUserId(userId));
             ViewBag.UserName = HttpContext.User.Claims.FirstOrDefault().Value;
             ViewBag.Id = userId;

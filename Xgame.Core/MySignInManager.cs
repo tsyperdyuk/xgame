@@ -4,13 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Xgame.Db.Entities;
-using Xgame.Model;
 
 namespace Xgame.Core
 {
@@ -19,7 +17,8 @@ namespace Xgame.Core
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserManager<AppUser> _userManager;
 
-        public MySignInManager(UserManager<AppUser> userManager, IHttpContextAccessor contextAccessor, IUserClaimsPrincipalFactory<AppUser> claimsFactory, IOptions<IdentityOptions> optionsAccessor = null, ILogger<SignInManager<AppUser>> logger = null, IAuthenticationSchemeProvider schemes = null)
+        public MySignInManager(UserManager<AppUser> userManager, IHttpContextAccessor contextAccessor, IUserClaimsPrincipalFactory<AppUser> claimsFactory, 
+            IOptions<IdentityOptions> optionsAccessor = null, ILogger<SignInManager<AppUser>> logger = null, IAuthenticationSchemeProvider schemes = null)
             : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes)
         {
             _userManager = userManager;
@@ -28,14 +27,21 @@ namespace Xgame.Core
         
         public override async Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
         {           
-            var userId = (await _userManager.FindByNameAsync(userName)).Id;
+            var user = await _userManager.FindByNameAsync(userName);
+            var roles = await _userManager.GetRolesAsync(user);
+
             var claims = new List<Claim>
             {
-              new Claim(UserClaimTypes.UserName, userName),
-              new Claim(UserClaimTypes.Id, userId),
+                new Claim(UserClaimTypes.UserName, userName),
+                new Claim(UserClaimTypes.UserId, user.Id)
             };
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            roles.ToList().ForEach(r => claims.Add(new Claim(UserClaimTypes.Roles, r)));
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme, UserClaimTypes.UserName, UserClaimTypes.Roles);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
             return SignInResult.Success;
         }
 
