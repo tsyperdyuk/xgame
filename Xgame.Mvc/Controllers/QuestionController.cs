@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Xgame.Model.QuestionModel;
 
 namespace Xgame.Mvc.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
