@@ -25,7 +25,10 @@
         <div class="navbar-collapse collapse row">
             <ul class="nav navbar-nav">
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
-                <li><a asp-controller="Roles" asp-action="Index">Roles</a></li>
+                @if (@User.IsInRole("admin"))
+                {
+                    <li><a asp-controller="Roles" asp-action="Index">Roles</a></li>
+                }
                 <li><a asp-controller="Question" asp-action="QuestionList">Questions</a></li>
             </ul> 
             <ul class="nav navbar-nav navbar-right">
